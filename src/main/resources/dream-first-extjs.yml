@@ -1,0 +1,18 @@
+dreamfirst:
+ #登录模式 test/session
+ loginMode: test
+ extjs:
+  #代码控制器是否注入
+  codeController: true
+  #模块服务设置监听。默认值false
+  moduleServiceSetListener: false
+  #项目路径设置监听。默认值false
+  projectPathSetListener: true
+  #静态资源服务名称
+  #staticResourcesServiceName: 
+  #静态资源服务根路径。
+  staticResourcesRootPath: http://localhost:12511
+  #当前服务名称。
+  #thisProjectServiceName: 
+  #当前项目根路径
+  thisProjectRootPath: /

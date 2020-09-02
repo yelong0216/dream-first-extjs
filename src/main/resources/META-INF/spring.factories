@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.yelong.dream.first.extjs.configuration.ExtjsConfiguration,\
-org.yelong.dream.first.extjs.configuration.PlatformConfiguration,\
-org.yelong.dream.first.extjs.configuration.ControllerAutoConfiguration
+dream.first.extjs.configuration.CodeManagerConfiguration,\
+dream.first.extjs.configuration.CodeControllerAutoConfiguration,\
+dream.first.extjs.configuration.DreamFirstExtJSConfiguration
