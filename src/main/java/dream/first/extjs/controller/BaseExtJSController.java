@@ -10,12 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.model.ModelNullProperty;
+import org.yelong.core.model.map.MapModelable;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
@@ -68,6 +71,11 @@ public abstract class BaseExtJSController extends BaseCoreController {
 	 * 响应的JSON的页面数据集合参数属性名称
 	 */
 	public static final String JSON_PAGE_ROOT_PROPERTY_NAME = "root";
+
+	/**
+	 * model 参数前缀
+	 */
+	public static final String MODEL_PARAM_PREFIX = "model.";
 
 	@Resource
 	protected DreamFirstModelService modelService;
@@ -128,7 +136,7 @@ public abstract class BaseExtJSController extends BaseCoreController {
 	 */
 	@InitBinder
 	public void initBinderModel(WebDataBinder binder) {
-		binder.setFieldDefaultPrefix("model.");
+		binder.setFieldDefaultPrefix(MODEL_PARAM_PREFIX);
 		// 加入时间解析
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
@@ -157,6 +165,30 @@ public abstract class BaseExtJSController extends BaseCoreController {
 				}
 			}
 		}, false));
+	}
+
+	/**
+	 * 注入map model属性
+	 * 
+	 * @since 2.0.1
+	 */
+	@InitBinder
+	public void initBinderMapModel(WebDataBinder binder) {
+		Object target = binder.getTarget();
+		if (!(target instanceof MapModelable)) {
+			return;
+		}
+		MapModelable mapModel = (MapModelable) target;
+		HttpServletRequest request = getRequest();
+		Enumeration<String> parameterNames = request.getParameterNames();
+		while (parameterNames.hasMoreElements()) {
+			String paramName = parameterNames.nextElement();
+			if (paramName.startsWith(MODEL_PARAM_PREFIX)) {
+				String fieldName = paramName.substring(MODEL_PARAM_PREFIX.length());
+				Object value = request.getParameter(paramName);
+				mapModel.put(fieldName, value);
+			}
+		}
 	}
 
 	/**
