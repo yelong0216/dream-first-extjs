@@ -128,7 +128,7 @@ public abstract class BaseExtJSCrudFileModelController<M extends BaseFileModelab
 	}
 
 	@Override
-	protected boolean validateModel(M model, JsonMsg msg) throws Exception {
+	public boolean validateModel(M model, JsonMsg msg) throws Exception {
 		// 默认情况下文件是必须存在的。重写此方法可以覆盖
 		MultipartFile file = getMultipartFile("file");
 		Objects.requireNonNull(file, "请上传文件！");
@@ -137,7 +137,7 @@ public abstract class BaseExtJSCrudFileModelController<M extends BaseFileModelab
 	}
 
 	@Override
-	protected void beforeSave(M model) throws Exception {
+	public void beforeSave(M model) throws Exception {
 		MultipartFile file = getMultipartFile("file");
 		if (null == file) {
 			return;
@@ -153,7 +153,7 @@ public abstract class BaseExtJSCrudFileModelController<M extends BaseFileModelab
 	}
 
 	@Override
-	protected boolean deleteModel(String deleteIds) throws Exception {
+	public boolean deleteModel(String deleteIds) throws Exception {
 		List<M> fileModels = modelService
 				.collect(ModelCollectors.findByOnlyPrimaryKeyContains(getModelClass(), deleteIds.split(",")));
 		if (CollectionUtils.isEmpty(fileModels)) {

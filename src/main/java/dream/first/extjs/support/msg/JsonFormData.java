@@ -3,16 +3,14 @@
  */
 package dream.first.extjs.support.msg;
 
+import dream.first.extjs.base.msg.DFEJsonFormData;
+
 /**
  * 集合性数据格式
  * 
  * @since 1.0.0
  */
-public class JsonFormData<T> {
-
-	private boolean success;
-
-	private T data;
+public class JsonFormData<T> extends DFEJsonFormData<T> {
 
 	public JsonFormData() {
 
@@ -20,22 +18,6 @@ public class JsonFormData<T> {
 
 	public JsonFormData(boolean success, T data) {
 		this.success = success;
-		this.data = data;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
 		this.data = data;
 	}
 

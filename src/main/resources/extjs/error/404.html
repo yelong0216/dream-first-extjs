@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>404</title>
+<style>
+.body_bg{
+   background:url(${STATIC_RESOURCES_ROOT_PATH}/images/body_bg.jpg) top repeat-x;
+}
+.error1,.error2{
+   background:url(${STATIC_RESOURCES_ROOT_PATH}/images/error_bg3_new.gif) top no-repeat;
+   width:980px;
+   height:650px;
+   margin:0 auto;
+   position:relative;
+}
+.error2{
+   background:url(${STATIC_RESOURCES_ROOT_PATH}/images/error_bg2.jpg) top no-repeat;
+   }
+.error_tip{
+   font-family:"微软雅黑";
+   position:absolute;
+   left:350px;
+   top:265px;
+   font-size:14px;
+   color:#333;
+   }
+.turn_link{
+   position:absolute;
+   right:160px;
+   top:265px;
+   font-size:14px;
+   }
+.turn_link a{
+   color:#a82b00;
+   marign:0 5px;
+   text-decoration:underline;
+   }
+.turn_link a:hover{
+   color: #0066CC;
+   }
+</style>
+</head>
+
+<body class="body_bg">
+<div class="error1">
+  <div class="error_tip">您访问的页面不存在！</div>
+   <div class="turn_link"><a href="javascript:history.back();">返回上一页</a> <!-- <a href="" target="_top">重新登录</a> --></div>
+</div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import org.yelong.support.spring.mvc.interceptor.AbstractHandlerInterceptor;
 import dream.first.core.login.CurrentLoginUserInfo;
 import dream.first.core.login.CurrentLoginUserInfoHolder;
 import dream.first.core.platform.org.model.Org;
+import dream.first.core.platform.user.constants.UserInitState;
 import dream.first.core.platform.user.model.User;
 
 /**
@@ -30,6 +31,7 @@ public class TestLoginInterceptor extends AbstractHandlerInterceptor {
 		user.setUsername("projectManage");
 		user.setRealName("项目开发人员");
 		user.setOrgId("1");
+		user.setInitState(UserInitState.HAS_BEEN_INIT.CODE);
 
 		Org org = new Org();
 		org.setId("1");
@@ -42,6 +44,7 @@ public class TestLoginInterceptor extends AbstractHandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		LoginSessionUser.setLoginUserInfo(request.getSession(), CURRENT_LOGIN_USER_INFO);
 		CurrentLoginUserInfoHolder.setCurrentLoginUserInfo(CURRENT_LOGIN_USER_INFO);
 		return true;
 	}

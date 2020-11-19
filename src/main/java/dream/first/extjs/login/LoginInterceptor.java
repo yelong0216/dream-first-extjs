@@ -21,6 +21,9 @@ import dream.first.core.platform.debug.Debugs;
 import dream.first.core.platform.login.model.LoginSession;
 import dream.first.core.platform.login.service.LoginSessionCommonService;
 import dream.first.core.platform.user.model.User;
+import dream.first.extjs.base.login.DFLoginValidate;
+import dream.first.extjs.base.login.DFLoginValidateConfig;
+import dream.first.extjs.base.login.DFLoginValidates;
 import dream.first.plugin.support.log.LogRecordUtils;
 
 /**
@@ -42,11 +45,11 @@ public class LoginInterceptor extends AbstractHandlerInterceptor {
 		if (!(handler instanceof HandlerMethod)) {
 			return true;
 		}
-		LoginValidate loginValidate = getLoginValidate((HandlerMethod) handler);
-		if (loginValidate == null) {
+		DFLoginValidateConfig loginValidateConfig = getLoginValidateConfig((HandlerMethod) handler);
+		if (loginValidateConfig == null) {
 			return true;
 		}
-		if (!loginValidate.validate()) {
+		if (!loginValidateConfig.validate()) {
 			return true;
 		}
 		HttpSession session = request.getSession();
@@ -64,7 +67,7 @@ public class LoginInterceptor extends AbstractHandlerInterceptor {
 						+ session.getId() + "】");
 
 		// 验证仅一个用户登录
-		if (!loginValidate.singleLogin()) {
+		if (!loginValidateConfig.singleLogin()) {
 			return true;
 		}
 		LoginSession loginSession = loginSessionService.getByUsername(loginUserInfo.getUser().getUsername());
@@ -81,7 +84,7 @@ public class LoginInterceptor extends AbstractHandlerInterceptor {
 							+ HttpServletUtils.getIpAddrByNginxReverseProxy(request) + "】。sessionId【" + session.getId()
 							+ "】。" + "\n\t用户新登录后的属性\t名称【" + loginSession.getUsername() + "】。登录ip【"
 							+ loginSession.getLoginIp() + "】。sessionId【" + loginSession.getSessionId() + "】");
-			if (loginValidate.singleLoginlog()) {
+			if (loginValidateConfig.singleLoginlog()) {
 				User user = loginUserInfo.getUser();
 				// 记录日志
 				LogRecordUtils.setRecordLog(true);
@@ -115,4 +118,31 @@ public class LoginInterceptor extends AbstractHandlerInterceptor {
 		Class<?> c = handler.getBeanType();
 		return AnnotationUtilsE.getAnnotation(c, LoginValidate.class, true);
 	}
+
+	/**
+	 * 获取登陆验证配置
+	 * 
+	 * @param handlerMethod 处理器方法
+	 * @return 登陆验证配置
+	 */
+	protected DFLoginValidateConfig getLoginValidateConfig(HandlerMethod handler) {
+		Method method = handler.getMethod();
+		if (method.isAnnotationPresent(DFLoginValidate.class)) {
+			return DFLoginValidates.buildLoginValidateConfig(method.getAnnotation(DFLoginValidate.class));
+		}
+		Class<?> c = handler.getBeanType();
+		DFLoginValidate dfLoginValidate = AnnotationUtilsE.getAnnotation(c, DFLoginValidate.class, true);
+		if (null != dfLoginValidate) {
+			return DFLoginValidates.buildLoginValidateConfig(dfLoginValidate);
+		}
+		LoginValidate loginValidate = getLoginValidate(handler);
+		if (null != loginValidate) {
+			DFLoginValidateConfig loginValidateConfig = new DFLoginValidateConfig(loginValidate.validate());
+			loginValidateConfig.setSingleLogin(loginValidate.singleLogin());
+			loginValidateConfig.setSingleLoginlog(loginValidate.singleLoginlog());
+			return loginValidateConfig;
+		}
+		return null;
+	}
+
 }

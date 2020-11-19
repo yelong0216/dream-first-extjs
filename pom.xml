@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yelong0216.dream.first</groupId>
 	<artifactId>dream-first-extjs</artifactId>
-	<version>2.0.1</version>
+	<version>2.1.0</version>
 	<name>dream-first-extjs</name>
 	<description>dreamfirst框架与前端框架Extjs的整合</description>
 	<url>https://github.com/yelong0216/dream-first-extjs.git</url>
@@ -24,8 +24,9 @@
 		<url>https://github.com/yelong0216/dream-first-extjs</url>
 	</scm>
 	<properties>
-		<dream-first.version>[2.0.0,2.1.0)</dream-first.version>
+		<dream-first.version>[2.1.0,2.2.0)</dream-first.version>
 		<dream-first-core.version>${dream-first.version}</dream-first-core.version>
+		<dream-first-extjs-base.version>${dream-first.version}</dream-first-extjs-base.version>
 		<dream-first-plugin-support.version>${dream-first.version}</dream-first-plugin-support.version>
 		<freemarker.version>2.3.28</freemarker.version>
 	</properties>
@@ -34,6 +35,11 @@
 			<groupId>com.github.yelong0216.dream.first</groupId>
 			<artifactId>dream-first-core</artifactId>
 			<version>${dream-first-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.yelong0216.dream.first</groupId>
+			<artifactId>dream-first-extjs-base</artifactId>
+			<version>${dream-first-extjs-base.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.yelong0216.dream.first</groupId>
@@ -56,24 +62,14 @@
 					<resource>
 						<directory>src/main/java</directory>
 						<includes>
-							<include>**/*.properties</include>
-							<include>**/*.xml</include>
-							<include>**/*.tld</include>
-							<include>**/*.yml</include>
-							<include>**/*.ftl</include>
-							<include>**/*.factories</include>
+							<include>**/*.*</include>
 						</includes>
 						<filtering>false</filtering>
 					</resource>
 					<resource>
 						<directory>src/main/resources</directory>
 						<includes>
-							<include>**/*.properties</include>
-							<include>**/*.xml</include>
-							<include>**/*.tld</include>
-							<include>**/*.yml</include>
-							<include>**/*.ftl</include>
-							<include>**/*.factories</include>
+							<include>**/*.*</include>
 						</includes>
 						<filtering>false</filtering>
 					</resource>
